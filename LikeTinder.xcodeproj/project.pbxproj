@@ -12,6 +12,7 @@
 		6BC3DA5C21C1AD0400D1312D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BC3DA5A21C1AD0400D1312D /* Main.storyboard */; };
 		6BC3DA5E21C1AD0500D1312D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BC3DA5D21C1AD0500D1312D /* Assets.xcassets */; };
 		6BC3DA6121C1AD0500D1312D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BC3DA5F21C1AD0500D1312D /* LaunchScreen.storyboard */; };
+		6BC3DA6B21C1B32000D1312D /* Extensions+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3DA6A21C1B32000D1312D /* Extensions+UIView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		6BC3DA5D21C1AD0500D1312D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6BC3DA6021C1AD0500D1312D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6BC3DA6221C1AD0500D1312D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6BC3DA6A21C1B32000D1312D /* Extensions+UIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extensions+UIView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,12 +58,29 @@
 			children = (
 				6BC3DA5621C1AD0400D1312D /* AppDelegate.swift */,
 				6BC3DA5821C1AD0400D1312D /* ViewController.swift */,
-				6BC3DA5A21C1AD0400D1312D /* Main.storyboard */,
-				6BC3DA5D21C1AD0500D1312D /* Assets.xcassets */,
-				6BC3DA5F21C1AD0500D1312D /* LaunchScreen.storyboard */,
+				6BC3DA6D21C1B34E00D1312D /* Extensions */,
+				6BC3DA6C21C1B33000D1312D /* Supporting Files */,
 				6BC3DA6221C1AD0500D1312D /* Info.plist */,
 			);
 			path = LikeTinder;
+			sourceTree = "<group>";
+		};
+		6BC3DA6C21C1B33000D1312D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6BC3DA5A21C1AD0400D1312D /* Main.storyboard */,
+				6BC3DA5D21C1AD0500D1312D /* Assets.xcassets */,
+				6BC3DA5F21C1AD0500D1312D /* LaunchScreen.storyboard */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6BC3DA6D21C1B34E00D1312D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6BC3DA6A21C1B32000D1312D /* Extensions+UIView.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,6 +156,7 @@
 			files = (
 				6BC3DA5921C1AD0400D1312D /* ViewController.swift in Sources */,
 				6BC3DA5721C1AD0400D1312D /* AppDelegate.swift in Sources */,
+				6BC3DA6B21C1B32000D1312D /* Extensions+UIView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +305,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 74PDM76YJS;
 				INFOPLIST_FILE = LikeTinder/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -303,6 +324,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 74PDM76YJS;
 				INFOPLIST_FILE = LikeTinder/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
