@@ -1,11 +1,3 @@
-//
-//  Extensions+UIView.swift
-//  SlideOutMenuInProgress
-//
-//  Created by Brian Voong on 9/30/18.
-//  Copyright © 2018 Brian Voong. All rights reserved.
-//
-
 import UIKit
 
 extension UIColor {
@@ -18,7 +10,6 @@ struct AnchoredConstraints {
     var top, leading, bottom, trailing, width, height: NSLayoutConstraint?
 }
 
-// Reference Video: https://youtu.be/iqpAP7s3b-8
 extension UIView {
     
     @discardableResult
