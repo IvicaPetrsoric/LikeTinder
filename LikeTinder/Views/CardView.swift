@@ -3,8 +3,6 @@ import UIKit
 class CardView: UIView {
     
     fileprivate let imageView = UIImageView(image: #imageLiteral(resourceName: "lady5c"))
-    
-    // configurations
     fileprivate let treshold: CGFloat = 100
     
     override init(frame: CGRect) {
