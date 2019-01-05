@@ -24,7 +24,6 @@ class RegistrationController: UIViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 32, weight: .heavy)
         button.backgroundColor = .white
         button.setTitleColor(.black, for: .normal)
-        button.heightAnchor.constraint(equalToConstant: 275).isActive = true
         button.layer.cornerRadius = 16
         button.imageView?.contentMode = .scaleAspectFill
         button.clipsToBounds = true
@@ -38,8 +37,11 @@ class RegistrationController: UIViewController {
         present(imagePicker, animated: true)
     }
     
+    lazy var selectPhotoButtonWidthAnchor = selectPhotoButton.widthAnchor.constraint(equalToConstant: 275)
+    lazy var selectPhotoButtonHeightAnchor = selectPhotoButton.heightAnchor.constraint(equalToConstant: 275)
+    
     let fullNameTextField: CustomTextField = {
-        let tf = CustomTextField(padding: 16)
+        let tf = CustomTextField(padding: 24, height: 50)
         tf.placeholder = "Enter full name"
         tf.backgroundColor = .white
         tf.addTarget(self, action: #selector(handleTextChange), for: .editingChanged)
@@ -47,7 +49,7 @@ class RegistrationController: UIViewController {
     }()
     
     let emailTextField: CustomTextField = {
-        let tf = CustomTextField(padding: 16)
+        let tf = CustomTextField(padding: 24, height: 50)
         tf.placeholder = "Enter email"
         tf.keyboardType = .emailAddress
         tf.backgroundColor = .white
@@ -56,7 +58,7 @@ class RegistrationController: UIViewController {
     }()
     
     let passwordTextField: CustomTextField = {
-        let tf = CustomTextField(padding: 16)
+        let tf = CustomTextField(padding: 24, height: 50)
         tf.placeholder = "Enter password"
         tf.isSecureTextEntry = true
         tf.backgroundColor = .white
@@ -87,23 +89,22 @@ class RegistrationController: UIViewController {
         return button
     }()
     
+    let registeringHUD = JGProgressHUD(style: .dark)
+    
     @objc fileprivate func handleRegister() {
         self.handleTapDismiss()
-        guard let email = emailTextField.text else { return }
-        guard let password = passwordTextField.text else { return }
-        
-        Auth.auth().createUser(withEmail: email, password: password) { (res, err) in
+
+        registrationViewModel.performRegistration { [weak self] (err) in
             if let err = err {
-                print("Error creating user ", err.localizedDescription)
-                self.showHUDWithError(error: err)
-                return
+                self?.showHUDWithError(error: err)
             }
             
-            print("Successfully registreted user: ", res?.user.uid ?? "")
+            print("Finished registration")
         }
     }
     
     fileprivate func showHUDWithError(error: Error) {
+        registeringHUD.dismiss()
         let hud = JGProgressHUD(style: .dark)
         hud.textLabel.text = "Failed registration"
         hud.detailTextLabel.text = error.localizedDescription
@@ -111,7 +112,7 @@ class RegistrationController: UIViewController {
         hud.dismiss(afterDelay: 4)
     }
     
-    lazy var versticalStackView: UIStackView = {
+    lazy var verticalStackView: UIStackView = {
         let sv = UIStackView(arrangedSubviews: [
             fullNameTextField,
             emailTextField,
@@ -119,21 +120,26 @@ class RegistrationController: UIViewController {
             registerButton
             ])
         sv.axis = .vertical
-        sv.distribution = .fillEqually
         sv.spacing = 8
         return sv
     }()
     
     lazy var overallStackView = UIStackView(arrangedSubviews: [
         selectPhotoButton,
-        versticalStackView,
+        verticalStackView,
         ])
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         if self.traitCollection.verticalSizeClass == .compact {
             overallStackView.axis = .horizontal
+            verticalStackView.distribution = .fillEqually
+            selectPhotoButtonHeightAnchor.isActive = false
+            selectPhotoButtonWidthAnchor.isActive = true
         } else {
             overallStackView.axis = .vertical
+            verticalStackView.distribution = .fill
+            selectPhotoButtonWidthAnchor.isActive = false
+            selectPhotoButtonHeightAnchor.isActive = true
         }
     }
     
@@ -163,6 +169,15 @@ class RegistrationController: UIViewController {
         registrationViewModel.bindableImage.bind { [unowned self] (img) in
             self.selectPhotoButton.setImage(img?.withRenderingMode(.alwaysOriginal), for: .normal)
         }
+        
+        registrationViewModel.bindableIsregistering.bind { [unowned self] (isRegistering) in
+            if isRegistering == true {
+                self.registeringHUD.textLabel.text = "Register"
+                self.registeringHUD.show(in: self.view)
+            } else {
+                self.registeringHUD.dismiss()
+            }
+        }
     }
     
     fileprivate func setupTapGesture() {
@@ -175,7 +190,7 @@ class RegistrationController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
+//        NotificationCenter.default.removeObserver(self)
     }
     
     fileprivate func setupNotificationObservers() {
@@ -218,11 +233,12 @@ class RegistrationController: UIViewController {
     
     fileprivate func setupLayout() {
         view.addSubview(overallStackView)
-        selectPhotoButton.widthAnchor.constraint(equalToConstant: 275).isActive = true
+        
+        overallStackView.axis = .vertical
         overallStackView.spacing = 8
         overallStackView.anchor(top: nil, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor,
-                         padding: .init(top: 0, left: 50, bottom: 0, right: 50))
-        overallStackView.centerInSuperview()
+                                padding: .init(top: 0, left: 50, bottom: 0, right: 50))
+        overallStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
 }
