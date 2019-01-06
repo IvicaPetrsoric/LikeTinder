@@ -2,19 +2,31 @@ import UIKit
 
 struct User: ProducesCardViewModel {
     
-    let name: String
-    let age: Int
-    let profession: String
-    let imageNames: [String]
+    let name: String?
+    let age: Int?
+    let profession: String?
+//    let imageNames: [String]
+    let imageUrl1: String?
+    let uid: String?
+    
+    init(dictionary: [String: Any]) {
+        self.name = dictionary["fullName"] as? String ?? ""
+        self.age = dictionary["age"] as? Int
+        self.profession = dictionary["profession"] as? String
+        self.imageUrl1 = dictionary["imageUrl1"] as? String ?? ""
+        self.uid = dictionary["uid"] as? String ?? ""
+    }
     
     func toCardViewModel() -> CardViewModel {
-        let attributedText = NSMutableAttributedString(string: name, attributes: [.font: UIFont.systemFont(ofSize: 32, weight: .heavy)])
-        attributedText.append(NSAttributedString(string: "  \(age)",
+        let attributedText = NSMutableAttributedString(string: name ?? "", attributes: [.font: UIFont.systemFont(ofSize: 32, weight: .heavy)])
+        let ageString = age != nil ? "\(age!)" : "N\\A"
+        let professionString = profession != nil ? profession! : "Not available"
+        attributedText.append(NSAttributedString(string: "  \(ageString)",
             attributes: [.font: UIFont.systemFont(ofSize: 24, weight: .regular)]))
-        attributedText.append(NSAttributedString(string: " \n\(profession)",
+        attributedText.append(NSAttributedString(string: " \n\(professionString)",
             attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .regular)]))
         
-        return CardViewModel(imageNames: imageNames, attributedString: attributedText, textAligment: .left)
+        return CardViewModel(imageNames: [imageUrl1 ?? ""], attributedString: attributedText, textAligment: .left)
     }
     
 }
