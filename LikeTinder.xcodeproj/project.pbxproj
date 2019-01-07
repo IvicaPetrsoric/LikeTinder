@@ -13,6 +13,7 @@
 		6B61E5E821E0BDBD00B39A33 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B61E5E721E0BDBD00B39A33 /* RegistrationViewModel.swift */; };
 		6B61E5EA21E0C59B00B39A33 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B61E5E921E0C59B00B39A33 /* GoogleService-Info.plist */; };
 		6B61E5EC21E0D80800B39A33 /* Bindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B61E5EB21E0D80800B39A33 /* Bindable.swift */; };
+		6B61E5EE21E3F84400B39A33 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B61E5ED21E3F84400B39A33 /* SettingsController.swift */; };
 		6BC3DA5721C1AD0400D1312D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3DA5621C1AD0400D1312D /* AppDelegate.swift */; };
 		6BC3DA5921C1AD0400D1312D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3DA5821C1AD0400D1312D /* HomeController.swift */; };
 		6BC3DA5C21C1AD0400D1312D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BC3DA5A21C1AD0400D1312D /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 		6B61E5E721E0BDBD00B39A33 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		6B61E5E921E0C59B00B39A33 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6B61E5EB21E0D80800B39A33 /* Bindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bindable.swift; sourceTree = "<group>"; };
+		6B61E5ED21E3F84400B39A33 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		6BC3DA5321C1AD0400D1312D /* LikeTinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LikeTinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BC3DA5621C1AD0400D1312D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6BC3DA5821C1AD0400D1312D /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				6B61E5E321DE3CE600B39A33 /* RegistrationController.swift */,
 				6B61E5E721E0BDBD00B39A33 /* RegistrationViewModel.swift */,
 				6B61E5EB21E0D80800B39A33 /* Bindable.swift */,
+				6B61E5ED21E3F84400B39A33 /* SettingsController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				6BC3DA5721C1AD0400D1312D /* AppDelegate.swift in Sources */,
 				6BE9297721DD498F00A44D04 /* CardViewModel.swift in Sources */,
 				6BC3DA7F21C6F88E00D1312D /* CardView.swift in Sources */,
+				6B61E5EE21E3F84400B39A33 /* SettingsController.swift in Sources */,
 				6BC3DA6B21C1B32000D1312D /* Extensions+UIView.swift in Sources */,
 				6B61E5E421DE3CE600B39A33 /* RegistrationController.swift in Sources */,
 				6BE9297321DCDEBB00A44D04 /* User.swift in Sources */,
