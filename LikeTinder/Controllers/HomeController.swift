@@ -23,6 +23,16 @@ class HomeController: UIViewController {
 //        fetchUsersFromFirestore()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if Auth.auth().currentUser == nil {
+            let loginController = LoginController()
+            loginController.delegate = self
+            let navController = UINavigationController(rootViewController: loginController)
+            present(navController, animated: true)
+        }
+    }
+    
     fileprivate var user: User?
     
     fileprivate func fetchCurrentUser() {
@@ -114,6 +124,13 @@ class HomeController: UIViewController {
 extension HomeController: SettingsControllerDelegate {
     
     func didSaveSettings() {
+        fetchCurrentUser()
+    }
+}
+
+extension HomeController: LoginControllerDelegate {
+    
+    func didFinishLoggingIn() {
         fetchCurrentUser()
     }
 }

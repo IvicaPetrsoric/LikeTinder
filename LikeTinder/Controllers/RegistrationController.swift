@@ -231,7 +231,23 @@ class RegistrationController: UIViewController {
         gradientLayer.frame = view.bounds
     }
     
+    lazy var goToLoginButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Go to Login", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .heavy)
+        button.addTarget(self, action: #selector(handleGoToLogin), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc fileprivate func handleGoToLogin() {
+        let loginController = LoginController()
+        navigationController?.pushViewController(loginController, animated: true)
+    }
+    
     fileprivate func setupLayout() {
+        navigationController?.isNavigationBarHidden = true
+        
         view.addSubview(overallStackView)
         
         overallStackView.axis = .vertical
@@ -239,6 +255,9 @@ class RegistrationController: UIViewController {
         overallStackView.anchor(top: nil, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor,
                                 padding: .init(top: 0, left: 50, bottom: 0, right: 50))
         overallStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+        view.addSubview(goToLoginButton)
+        goToLoginButton.anchor(top: nil, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor)
     }
     
 }
