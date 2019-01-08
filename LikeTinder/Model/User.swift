@@ -2,11 +2,11 @@ import UIKit
 
 struct User: ProducesCardViewModel {
     
-    let name: String?
-    let age: Int?
-    let profession: String?
+    var name: String?
+    var age: Int?
+    var profession: String?
 //    let imageNames: [String]
-    let imageUrl1: String?
+    var imageUrl1: String?
     let uid: String?
     
     init(dictionary: [String: Any]) {
