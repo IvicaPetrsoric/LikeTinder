@@ -18,6 +18,7 @@
 		6B61E5F221E4C7B700B39A33 /* AgeRangeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B61E5F121E4C7B700B39A33 /* AgeRangeCell.swift */; };
 		6B61E5F521E4F7F800B39A33 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B61E5F421E4F7F800B39A33 /* LoginController.swift */; };
 		6B61E5F721E4F80F00B39A33 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B61E5F621E4F80F00B39A33 /* LoginViewModel.swift */; };
+		6B61E5FB21E5343D00B39A33 /* UserDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B61E5FA21E5343D00B39A33 /* UserDetailsController.swift */; };
 		6BC3DA5721C1AD0400D1312D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3DA5621C1AD0400D1312D /* AppDelegate.swift */; };
 		6BC3DA5921C1AD0400D1312D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3DA5821C1AD0400D1312D /* HomeController.swift */; };
 		6BC3DA5C21C1AD0400D1312D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BC3DA5A21C1AD0400D1312D /* Main.storyboard */; };
@@ -45,6 +46,7 @@
 		6B61E5F121E4C7B700B39A33 /* AgeRangeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeRangeCell.swift; sourceTree = "<group>"; };
 		6B61E5F421E4F7F800B39A33 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		6B61E5F621E4F80F00B39A33 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		6B61E5FA21E5343D00B39A33 /* UserDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsController.swift; sourceTree = "<group>"; };
 		6BC3DA5321C1AD0400D1312D /* LikeTinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LikeTinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BC3DA5621C1AD0400D1312D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6BC3DA5821C1AD0400D1312D /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
@@ -89,6 +91,14 @@
 				6B61E5F621E4F80F00B39A33 /* LoginViewModel.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		6B61E5F921E5342300B39A33 /* UserDetails */ = {
+			isa = PBXGroup;
+			children = (
+				6B61E5FA21E5343D00B39A33 /* UserDetailsController.swift */,
+			);
+			path = UserDetails;
 			sourceTree = "<group>";
 		};
 		6BC3DA4A21C1AD0400D1312D = {
@@ -168,6 +178,7 @@
 		6BE9297421DD48A300A44D04 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				6B61E5F921E5342300B39A33 /* UserDetails */,
 				6B61E5F321E4F7B600B39A33 /* Login */,
 				6BC3DA5821C1AD0400D1312D /* HomeController.swift */,
 				6B61E5E321DE3CE600B39A33 /* RegistrationController.swift */,
@@ -340,6 +351,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B61E5FB21E5343D00B39A33 /* UserDetailsController.swift in Sources */,
 				6B61E5EC21E0D80800B39A33 /* Bindable.swift in Sources */,
 				6BC3DA7D21C6843F00D1312D /* TopNavigationStackView.swift in Sources */,
 				6B61E5E821E0BDBD00B39A33 /* RegistrationViewModel.swift in Sources */,
