@@ -1,5 +1,6 @@
 import UIKit
 import FirebaseFirestore
+import Firebase
 import JGProgressHUD
 
 class HomeController: UIViewController {
@@ -17,8 +18,25 @@ class HomeController: UIViewController {
         bottomControlls.refreshButton.addTarget(self, action: #selector(handleRefresh), for: .touchUpInside)
         
         setupLayout()
-        setupFirestoreUserCards()
-        fetchUsersFromFirestore()
+        fetchCurrentUser()
+//        setupFirestoreUserCards()
+//        fetchUsersFromFirestore()
+    }
+    
+    fileprivate var user: User?
+    
+    fileprivate func fetchCurrentUser() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Firestore.firestore().collection("users").document(uid).getDocument { (snapshot, err) in
+            if let err = err {
+                print(err.localizedDescription)
+                return
+            }
+            
+            guard let dictionary = snapshot?.data() else { return }
+            self.user = User(dictionary: dictionary)
+            self.fetchUsersFromFirestore()
+        }
     }
     
     @objc fileprivate func handleRefresh() {
@@ -26,12 +44,14 @@ class HomeController: UIViewController {
     }
     
     var lastFecthedUser: User?
+    
     fileprivate func fetchUsersFromFirestore() {
+        guard let minAge = user?.minSeekingAge, let maxAge = user?.maxSeekingAge else { return }
         let hud = JGProgressHUD(style: .dark)
         hud.textLabel.text = "Fetching Users"
         hud.show(in: view)
         
-        let query = Firestore.firestore().collection("users").order(by: "uid").start(after: [lastFecthedUser?.uid ?? ""]).limit(to: 1)
+        let query = Firestore.firestore().collection("users").whereField("age", isGreaterThanOrEqualTo: minAge).whereField("age", isLessThanOrEqualTo: maxAge)
         query.getDocuments { (snapshot, err) in
             hud.dismiss()
             
@@ -47,7 +67,6 @@ class HomeController: UIViewController {
                 self.lastFecthedUser = user
                 self.setupCardFromUser(user: user)
             })
-//            self.setupFirestoreUserCards()
         }
     }
     
@@ -61,6 +80,7 @@ class HomeController: UIViewController {
     
     @objc func handleSettings() {
         let settingsController = SettingsController()
+        settingsController.delegate = self
         let navController = UINavigationController(rootViewController: settingsController)
         present(navController, animated: true)
     }
@@ -88,5 +108,12 @@ class HomeController: UIViewController {
         overallStackView.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
         
         overallStackView.bringSubviewToFront(cardsDeckView)
+    }
+}
+
+extension HomeController: SettingsControllerDelegate {
+    
+    func didSaveSettings() {
+        fetchCurrentUser()
     }
 }
