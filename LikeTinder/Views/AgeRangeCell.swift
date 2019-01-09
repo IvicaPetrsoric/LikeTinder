@@ -24,7 +24,7 @@ class AgeRangeCell: UITableViewCell {
     
     let maxLabel: UILabel = {
         let label = AgeRangeLabel()
-        label.text = "Min 88"
+        label.text = "Max 88"
         return label
     }()
     

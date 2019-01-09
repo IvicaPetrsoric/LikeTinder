@@ -257,7 +257,7 @@ class SettingsController: UITableViewController, UIImagePickerControllerDelegate
             ageRangeCell.minSlider.addTarget(self, action: #selector(handleMinAgeChange), for: .valueChanged)
             ageRangeCell.maxSlider.addTarget(self, action: #selector(handleMaxAgeChange), for: .valueChanged)
             ageRangeCell.minLabel.text = "Min \(user?.minSeekingAge ?? 18)"
-            ageRangeCell.minLabel.text = "Max \(user?.maxSeekingAge ?? 18)"
+            ageRangeCell.maxLabel.text = "Max \(user?.maxSeekingAge ?? 18)"
             return ageRangeCell
         }
         
