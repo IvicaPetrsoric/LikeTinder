@@ -26,9 +26,9 @@ class HomeController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if Auth.auth().currentUser == nil {
-            let loginController = LoginController()
-            loginController.delegate = self
-            let navController = UINavigationController(rootViewController: loginController)
+            let registrationController = RegistrationController()
+            registrationController.delegate = self
+            let navController = UINavigationController(rootViewController: registrationController)
             present(navController, animated: true)
         }
     }
@@ -36,10 +36,13 @@ class HomeController: UIViewController {
     fileprivate var user: User?
     
     fileprivate func fetchCurrentUser() {
+        hud.textLabel.text = "Fetching Users"
+        hud.show(in: view)
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Firestore.firestore().collection("users").document(uid).getDocument { (snapshot, err) in
             if let err = err {
                 print(err.localizedDescription)
+                self.hud.dismiss()
                 return
             }
             
@@ -53,17 +56,16 @@ class HomeController: UIViewController {
         fetchUsersFromFirestore()
     }
     
-    var lastFecthedUser: User?
+    fileprivate let hud = JGProgressHUD(style: .dark)
+    fileprivate var lastFecthedUser: User?
     
     fileprivate func fetchUsersFromFirestore() {
-        guard let minAge = user?.minSeekingAge, let maxAge = user?.maxSeekingAge else { return }
-        let hud = JGProgressHUD(style: .dark)
-        hud.textLabel.text = "Fetching Users"
-        hud.show(in: view)
+        let minAge = user?.minSeekingAge ?? SettingsController.defaultMinSeekingAge
+        let maxAge = user?.maxSeekingAge ?? SettingsController.defaultMaxSeekingAge
         
         let query = Firestore.firestore().collection("users").whereField("age", isGreaterThanOrEqualTo: minAge).whereField("age", isLessThanOrEqualTo: maxAge)
         query.getDocuments { (snapshot, err) in
-            hud.dismiss()
+            self.hud.dismiss()
             
             if let err = err {
                 print("Failed to fetch users:", err)
