@@ -3,19 +3,17 @@ import SDWebImage
 
 protocol CardViewDelegate: class {
     func didTapMoreInfo(cardViewModel: CardViewModel)
+    func didRemoveCard(cardView: CardView)
 }
 
 class CardView: UIView {
+    
+    var nextCardView: CardView?
     
     weak var delegate: CardViewDelegate?
     
     var cardViewModel: CardViewModel! {
         didSet {
-//            let imageName = cardViewModel.imageUrls.first ?? ""
-//            if let url = URL(string: imageName) {
-//                imageView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "photo_placeholder") , options: .continueInBackground)
-//            }
-            
             swipingPhotosController.cardViewModel = self.cardViewModel
 
             informationLabel.attributedText = cardViewModel.attributedString
@@ -173,6 +171,7 @@ class CardView: UIView {
             self.transform = .identity
             if shouldDismissCard {
                 self.removeFromSuperview()
+                self.delegate?.didRemoveCard(cardView: self)
             }
         }
     }
