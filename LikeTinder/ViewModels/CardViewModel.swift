@@ -7,6 +7,7 @@ protocol ProducesCardViewModel {
 // define the properties that view will display
 class CardViewModel {
     
+    let uid: String
     let imageUrls: [String]
     let attributedString: NSAttributedString
     let textAligment: NSTextAlignment
@@ -19,7 +20,8 @@ class CardViewModel {
         }
     }
     
-    init(imageNames: [String], attributedString: NSAttributedString, textAligment: NSTextAlignment) {
+    init(uid: String, imageNames: [String], attributedString: NSAttributedString, textAligment: NSTextAlignment) {
+        self.uid = uid
         self.imageUrls = imageNames
         self.attributedString = attributedString
         self.textAligment = textAligment

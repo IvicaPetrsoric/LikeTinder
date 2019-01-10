@@ -4,6 +4,7 @@ import SDWebImage
 protocol CardViewDelegate: class {
     func didTapMoreInfo(cardViewModel: CardViewModel)
     func didRemoveCard(cardView: CardView)
+    func swipeCard(left: Bool)
 }
 
 class CardView: UIView {
@@ -161,19 +162,34 @@ class CardView: UIView {
         let translationDirection: CGFloat = gesture.translation(in: nil).x > 0 ? 1 : -1
         let shouldDismissCard = abs(gesture.translation(in: nil).x) > treshold
         
-        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.1, options: .curveEaseOut, animations: {
-            if shouldDismissCard {
-                self.frame = CGRect(x: translationDirection * 600, y: 0, width: self.frame.width, height: self.frame.height)
+        if shouldDismissCard {            
+            if translationDirection == 1 {
+                delegate?.swipeCard(left: false)
             } else {
+                delegate?.swipeCard(left: true)
+            }
+        } else {
+            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.1, options: .curveEaseOut, animations: {
                 self.transform = .identity
-            }
-        }) { (_) in
-            self.transform = .identity
-            if shouldDismissCard {
-                self.removeFromSuperview()
-                self.delegate?.didRemoveCard(cardView: self)
-            }
+            })
         }
+        
+
+        
+        
+//        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.1, options: .curveEaseOut, animations: {
+//            if shouldDismissCard {
+//                self.frame = CGRect(x: translationDirection * 600, y: 0, width: self.frame.width, height: self.frame.height)
+//            } else {
+//                self.transform = .identity
+//            }
+//        }) { (_) in
+//            self.transform = .identity
+//            if shouldDismissCard {
+//                self.removeFromSuperview()
+//                self.delegate?.didRemoveCard(cardView: self)
+//            }
+//        }
     }
     
     required init?(coder aDecoder: NSCoder) {
