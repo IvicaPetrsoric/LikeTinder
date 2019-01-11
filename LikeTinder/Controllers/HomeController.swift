@@ -186,16 +186,14 @@ class HomeController: UIViewController {
             if hasMatched {
                 print("Has matched")
                 self.presentMatchView(cardUid: cardUid)
-//                let hud = JGProgressHUD(style: .dark)
-//                hud.textLabel.text = "Found a match"
-//                hud.show(in: self.view)
-//                hud.dismiss(afterDelay: 4)
             }
         }
     }
     
     fileprivate func presentMatchView(cardUid: String) {
         let matchView = MatchView()
+        matchView.cardUid = cardUid
+        matchView.currentUser = user
         view.addSubview(matchView)
         matchView.fillSuperview()
     }

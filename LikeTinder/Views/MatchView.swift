@@ -1,6 +1,38 @@
 import UIKit
+import Firebase
 
 class MatchView: UIView {
+    
+    var currentUser: User? {
+        didSet {
+
+        }
+    }
+    
+    var cardUid: String? {
+        didSet {
+            guard let uid = cardUid else { return }
+            let query = Firestore.firestore().collection("users")
+            query.document(uid).getDocument { (snapshot, err) in
+                if let err = err {
+                    print("Failed to fetch card user: ", err.localizedDescription)
+                    return
+                }
+                
+                guard let dictionary = snapshot?.data() else { return }
+                let user = User(dictionary: dictionary)
+                guard let url = URL(string: user.imageUrl1 ?? "") else { return }
+                self.cardUserImageView.sd_setImage(with: url)
+                
+                guard let currentUserImageUrl = URL(string: self.currentUser?.imageUrl1 ?? "") else { return }
+                self.currentUserImageView.sd_setImage(with: currentUserImageUrl, completed: { (_, _, _, _) in
+                    self.setupAnimations()
+                })
+                
+                self.descriptionLabel.text = "You and \(user.name ?? "Unknown") have liked\neach other"
+            }
+        }
+    }
     
     fileprivate let itsAMatchImageView: UIImageView = {
         let iv = UIImageView(image: #imageLiteral(resourceName: "itsamatch"))
@@ -52,15 +84,27 @@ class MatchView: UIView {
         return button
     }()
     
+    lazy var views = [
+        itsAMatchImageView,
+        descriptionLabel,
+        currentUserImageView,
+        cardUserImageView,
+        sendMessageButton,
+        keepSwipingButton
+    ]
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         setuoBlurView()
         setuoLayout()
-        setupAnimations()
     }
     
     fileprivate func setupAnimations() {
+        UIView.animate(withDuration: 0.2) {
+            self.views.forEach({$0.alpha = 1})
+        }
+        
         let angle = 30 * CGFloat.pi / 180
         let translationX: CGFloat = 300
         
@@ -92,6 +136,10 @@ class MatchView: UIView {
     }
     
     fileprivate func setuoLayout() {
+        views.forEach { (v) in
+            v.alpha = 0
+        }
+        
         addSubview(itsAMatchImageView)
         addSubview(descriptionLabel)
         addSubview(currentUserImageView)
