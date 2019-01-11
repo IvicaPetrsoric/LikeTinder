@@ -75,6 +75,7 @@ class HomeController: UIViewController {
     }
     
     @objc fileprivate func handleRefresh() {
+        cardsDeckView.subviews.forEach{($0.removeFromSuperview())}
         fetchUsersFromFirestore()
     }
     
@@ -102,7 +103,8 @@ class HomeController: UIViewController {
                 let userDictionary = documentSnapshot.data()
                 let user = User(dictionary: userDictionary)
                 let isNotCurrentUser = user.uid != Auth.auth().currentUser?.uid
-                let hasNotSwipedBoefore = self.swipes[user.uid!] == nil
+//                let hasNotSwipedBoefore = self.swipes[user.uid!] == nil
+                let hasNotSwipedBoefore = true
                 if isNotCurrentUser && hasNotSwipedBoefore  {
                     let cardView = self.setupCardFromUser(user: user)
                     
@@ -146,7 +148,10 @@ class HomeController: UIViewController {
                     }
                     
                     print("Successfully update swiped...")
-                    self.checkIfMatchExists(cardUid: cardUid)
+                    
+                    if didLike == 1 {
+                        self.checkIfMatchExists(cardUid: cardUid)
+                    }
                 }
             } else {
                 Firestore.firestore().collection("swipes").document(uid).setData(documentData) { (err) in
@@ -156,7 +161,10 @@ class HomeController: UIViewController {
                     }
                     
                     print("Successfully saved swiped...")
-                    self.checkIfMatchExists(cardUid: cardUid)
+                    
+                    if didLike == 1 {
+                        self.checkIfMatchExists(cardUid: cardUid)
+                    }
                 }
             }
         }
@@ -177,12 +185,19 @@ class HomeController: UIViewController {
             
             if hasMatched {
                 print("Has matched")
-                let hud = JGProgressHUD(style: .dark)
-                hud.textLabel.text = "Found a match"
-                hud.show(in: self.view)
-                hud.dismiss(afterDelay: 4)
+                self.presentMatchView(cardUid: cardUid)
+//                let hud = JGProgressHUD(style: .dark)
+//                hud.textLabel.text = "Found a match"
+//                hud.show(in: self.view)
+//                hud.dismiss(afterDelay: 4)
             }
         }
+    }
+    
+    fileprivate func presentMatchView(cardUid: String) {
+        let matchView = MatchView()
+        view.addSubview(matchView)
+        matchView.fillSuperview()
     }
     
     @objc func handleDisLike() {
