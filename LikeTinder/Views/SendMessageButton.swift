@@ -2,6 +2,11 @@ import UIKit
 
 class SendMessageButton: UIButton {
     
+    convenience init(type buttonType: UIButton.ButtonType, color: UIColor) {
+        self.init(type: buttonType)
+        print("color: ", color)
+    }
+    
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         
