@@ -13,5 +13,6 @@ target 'LikeTinder' do
   pod 'GoogleAppMeasurement', '~> 5.2.0'
   pod 'SDWebImage','~>4.4.2’
   pod 'JGProgressHUD','~>2.0.3'
+  pod 'LBTATools'
 
 end

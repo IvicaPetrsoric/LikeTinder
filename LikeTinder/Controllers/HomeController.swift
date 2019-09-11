@@ -14,7 +14,11 @@ class HomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.navigationBar.isHidden = true
+//        navigationController?.isNavigationBarHidden = true // disables back dragging!!
+        
         topStackView.settingsButton.addTarget(self, action: #selector(handleSettings), for: .touchUpInside)
+        topStackView.messageButton.addTarget(self, action: #selector(handleMessages), for: .touchUpInside)
         bottomControlls.refreshButton.addTarget(self, action: #selector(handleRefresh), for: .touchUpInside)
         bottomControlls.likeButton.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
         bottomControlls.dislikeButton.addTarget(self, action: #selector(handleDisLike), for: .touchUpInside)
@@ -23,6 +27,11 @@ class HomeController: UIViewController {
         fetchCurrentUser()
 //        setupFirestoreUserCards()
 //        fetchUsersFromFirestore()
+    }
+    
+    @objc private func handleMessages() {
+        let vc = MatchesMessagesController(collectionViewLayout: UICollectionViewFlowLayout())
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
