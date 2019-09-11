@@ -8,34 +8,60 @@
 
 import LBTATools
 
-class MatchesMessagesController: UICollectionViewController {
+class MatchCell: LBTAListCell<UIColor> {
     
-    let customNavBar: UIView = {
-        let navBar = UIView(backgroundColor: .white)
-
-        let iconImageView = UIImageView(image: #imageLiteral(resourceName: "top_messages_icon").withRenderingMode(.alwaysTemplate), contentMode: .scaleAspectFit)
-        iconImageView.tintColor = #colorLiteral(red: 0.9995302558, green: 0.4175311327, blue: 0.4436424375, alpha: 1)
-        let messagesLabel = UILabel(text: "Messages", font: .boldSystemFont(ofSize: 20), textColor: #colorLiteral(red: 0.9995302558, green: 0.4175311327, blue: 0.4436424375, alpha: 1), textAlignment: .center)
-        let feedLabel = UILabel(text: "Feed", font: .boldSystemFont(ofSize: 20), textColor: .gray, textAlignment: .center)
-
-        navBar.stack(iconImageView.withHeight(44),
-                     navBar.hstack(messagesLabel, feedLabel, distribution: .fillEqually)
-                     ).padTop(10)
+    let profileImageeView = UIImageView(image: #imageLiteral(resourceName: "jane2"), contentMode: .scaleAspectFill)
+    let usernameLabel = UILabel(text: "Username Here", font: .systemFont(ofSize: 14, weight: .semibold),
+                                textColor: #colorLiteral(red: 0.2550676465, green: 0.2552897036, blue: 0.2551020384, alpha: 1), textAlignment: .center, numberOfLines: 2)
+    
+    override var item: UIColor! {
+        didSet {
+            backgroundColor = item
+        }
+    }
+    
+    override func setupViews() {
+        super.setupViews()
         
-        navBar.setupShadow(opacity: 0.2, radius: 8, offset: .init(width: 0, height: 10), color: .init(white: 0, alpha: 0.3))
+        profileImageeView.clipsToBounds = true
+        profileImageeView.constrainWidth(80)
+        profileImageeView.constrainHeight(80)
+        profileImageeView.layer.cornerRadius = 80 / 2
         
-        return navBar
-    }()
+        stack(stack(profileImageeView, alignment: .center),
+              usernameLabel)
+    }
+}
+
+class MatchesMessagesController: LBTAListController<MatchCell, UIColor>, UICollectionViewDelegateFlowLayout {
+    
+    let customNavBar = MatchesNavBar()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        items = [
+            .red, .blue, .green
+        ]
+        
         collectionView.backgroundColor = .white
+        
+        customNavBar.backButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
         
         view.addSubview(customNavBar)
         customNavBar.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor,
                             bottom: nil, trailing: view.trailingAnchor,
                             size: .init(width: 0, height: 150))
+        
+        collectionView.contentInset.top = 150
+    }
+    
+    @objc private func handleBack() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return .init(width: 100, height: 140)
     }
     
 }

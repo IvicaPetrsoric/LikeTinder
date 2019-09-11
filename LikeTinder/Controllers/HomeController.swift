@@ -30,7 +30,8 @@ class HomeController: UIViewController {
     }
     
     @objc private func handleMessages() {
-        let vc = MatchesMessagesController(collectionViewLayout: UICollectionViewFlowLayout())
+//        let vc = MatchesMessagesController(collectionViewLayout: UICollectionViewFlowLayout())
+        let vc = MatchesMessagesController()
         navigationController?.pushViewController(vc, animated: true)
     }
     
