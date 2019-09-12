@@ -215,7 +215,7 @@ class HomeController: UIViewController {
                 
                 guard let currentUser = self.user else { return }
                 
-                let otherMatchData = ["name": currentUser.name ?? "", "profileImageUrl": currentUser.imageUrl1 ?? "", "uid": cardUid, "timestamp": Timestamp(date: Date())] as [String: Any]
+                let otherMatchData = ["name": currentUser.name ?? "", "profileImageUrl": currentUser.imageUrl1 ?? "", "uid": currentUser.uid, "timestamp": Timestamp(date: Date())] as [String: Any]
                 
                 Firestore.firestore().collection("matches_messages").document(cardUid).collection("matches").document(uid).setData(otherMatchData, completion: { (err) in
                     if let err = err {
