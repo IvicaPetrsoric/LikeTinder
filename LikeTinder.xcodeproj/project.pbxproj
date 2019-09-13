@@ -32,6 +32,8 @@
 		6B9B5AFC232ADBFB009AC88E /* CustomInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9B5AFB232ADBFB009AC88E /* CustomInputAccessoryView.swift */; };
 		6B9B5AFE232BCAD6009AC88E /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9B5AFD232BCAD6009AC88E /* Match.swift */; };
 		6B9B5B00232BCAEE009AC88E /* MatchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9B5AFF232BCAEE009AC88E /* MatchCell.swift */; };
+		6B9B5B02232BD373009AC88E /* MatchesHorizontalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9B5B01232BD373009AC88E /* MatchesHorizontalController.swift */; };
+		6B9B5B04232BD39D009AC88E /* MatchesHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9B5B03232BD39D009AC88E /* MatchesHeader.swift */; };
 		6BC3DA5721C1AD0400D1312D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3DA5621C1AD0400D1312D /* AppDelegate.swift */; };
 		6BC3DA5921C1AD0400D1312D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC3DA5821C1AD0400D1312D /* HomeController.swift */; };
 		6BC3DA5C21C1AD0400D1312D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BC3DA5A21C1AD0400D1312D /* Main.storyboard */; };
@@ -73,6 +75,8 @@
 		6B9B5AFB232ADBFB009AC88E /* CustomInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInputAccessoryView.swift; sourceTree = "<group>"; };
 		6B9B5AFD232BCAD6009AC88E /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
 		6B9B5AFF232BCAEE009AC88E /* MatchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchCell.swift; sourceTree = "<group>"; };
+		6B9B5B01232BD373009AC88E /* MatchesHorizontalController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchesHorizontalController.swift; sourceTree = "<group>"; };
+		6B9B5B03232BD39D009AC88E /* MatchesHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchesHeader.swift; sourceTree = "<group>"; };
 		6BC3DA5321C1AD0400D1312D /* LikeTinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LikeTinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BC3DA5621C1AD0400D1312D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6BC3DA5821C1AD0400D1312D /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
@@ -132,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				6B9B5AEE2328D99B009AC88E /* MatchesMessagesController.swift */,
+				6B9B5B01232BD373009AC88E /* MatchesHorizontalController.swift */,
 				6B9B5AF2232A82A3009AC88E /* ChatLogController.swift */,
 			);
 			path = MatchesMessages;
@@ -144,6 +149,7 @@
 				6B9B5AF9232AD4BC009AC88E /* MessageCell.swift */,
 				6B9B5AFB232ADBFB009AC88E /* CustomInputAccessoryView.swift */,
 				6B9B5AFF232BCAEE009AC88E /* MatchCell.swift */,
+				6B9B5B03232BD39D009AC88E /* MatchesHeader.swift */,
 			);
 			path = MatchesMessages;
 			sourceTree = "<group>";
@@ -409,6 +415,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B61E5FB21E5343D00B39A33 /* UserDetailsController.swift in Sources */,
+				6B9B5B02232BD373009AC88E /* MatchesHorizontalController.swift in Sources */,
 				6B63EB9421E8F39E00423246 /* KeepSwipingButton.swift in Sources */,
 				6B61E5EC21E0D80800B39A33 /* Bindable.swift in Sources */,
 				6BC3DA7D21C6843F00D1312D /* TopNavigationStackView.swift in Sources */,
@@ -419,6 +426,7 @@
 				6BC3DA5921C1AD0400D1312D /* HomeController.swift in Sources */,
 				6B63EB9221E8F0BA00423246 /* SendMessageButton.swift in Sources */,
 				6BE9297921DD4F6D00A44D04 /* Advertiser.swift in Sources */,
+				6B9B5B04232BD39D009AC88E /* MatchesHeader.swift in Sources */,
 				6BC3DA7B21C680F600D1312D /* HomeBottomControlsStackView.swift in Sources */,
 				6B9B5AF6232A8964009AC88E /* MessagesNavBar.swift in Sources */,
 				6B9B5AEF2328D99B009AC88E /* MatchesMessagesController.swift in Sources */,
