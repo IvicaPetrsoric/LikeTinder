@@ -98,12 +98,22 @@ class MatchesMessagesController: LBTAListHeaderController<RecentMessageCell, Rec
                               bottom: view.safeAreaLayoutGuide.topAnchor, trailing: view.trailingAnchor)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if isMovingFromParent {
+            listener?.remove()
+        }
+    }
+    
     var recentMessagesDictionary = [String: RecentMessage]()
+    var listener: ListenerRegistration?
     
     private func fetchRecentMessages() {
         guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        let query = Firestore.firestore().collection("matches_messages").document(currentUserId).collection("recent_messages")
         
-        Firestore.firestore().collection("matches_messages").document(currentUserId).collection("recent_messages").addSnapshotListener { (querySnapshot, err) in
+        listener = query.addSnapshotListener { (querySnapshot, err) in
             querySnapshot?.documentChanges.forEach({ (change) in
                 
                 if change.type == .added || change.type == .modified {

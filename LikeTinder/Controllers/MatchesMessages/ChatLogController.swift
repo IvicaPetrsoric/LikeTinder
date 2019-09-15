@@ -63,12 +63,14 @@ class ChatLogController: LBTAListController<MessageCell, Message>, UICollectionV
         self.collectionView.scrollToItem(at: [0, items.count - 1], at: .bottom, animated: true)
     }
     
+    var listener: ListenerRegistration?
+    
     private func fetchMessages() {
         guard let currentUserId = Auth.auth().currentUser?.uid else { return }
         
         let query = Firestore.firestore().collection("matches_messages").document(currentUserId).collection(match.uid).order(by: "timestamp")
         
-        query.addSnapshotListener { (querySnapshot, err) in
+        listener = query.addSnapshotListener { (querySnapshot, err) in
             if let err = err {
                 print("Failed to fetch messages:", err)
                 return
@@ -98,6 +100,14 @@ class ChatLogController: LBTAListController<MessageCell, Message>, UICollectionV
 //
 //            self.collectionView.reloadData()
 //        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if isMovingFromParent {
+            listener?.remove()
+        }
     }
     
     @objc private func handleBack() {
