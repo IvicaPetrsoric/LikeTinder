@@ -22,6 +22,8 @@ class ChatLogController: LBTAListController<MessageCell, Message>, UICollectionV
         super.init()
     }
     
+    var currentUser: User?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,6 +48,15 @@ class ChatLogController: LBTAListController<MessageCell, Message>, UICollectionV
         fetchMessages()
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardShow), name: UIResponder.keyboardDidShowNotification, object: nil)
+        
+        fetchCurrentUser()
+    }
+    
+    private func fetchCurrentUser() {
+        Firestore.firestore().collection("users").document(Auth.auth().currentUser?.uid ?? "").getDocument { (snapshot, err) in
+            let data = snapshot?.data() ?? [:]
+            self.currentUser = User(dictionary: data)
+        }
     }
     
     @objc private func handleKeyboardShow() {
@@ -118,6 +129,11 @@ class ChatLogController: LBTAListController<MessageCell, Message>, UICollectionV
     @objc private func handleSend() {
         print(customInputView.textView.text ?? "")
         
+        saveToFromMessages()
+        saveToFromReceentMessages()
+    }
+    
+    private func saveToFromMessages() {
         guard let currentUserId = Auth.auth().currentUser?.uid else { return }
         
         let collection = Firestore.firestore().collection("matches_messages").document(currentUserId).collection(match.uid)
@@ -126,7 +142,7 @@ class ChatLogController: LBTAListController<MessageCell, Message>, UICollectionV
             "text": customInputView.textView.text ?? "",
             "fromId": currentUserId, "toId": match.uid,
             "timestamp": Timestamp(date: Date())
-        ] as [String: Any]
+            ] as [String: Any]
         
         collection.addDocument(data: data) { (err) in
             if let err = err {
@@ -150,7 +166,42 @@ class ChatLogController: LBTAListController<MessageCell, Message>, UICollectionV
             self.customInputView.textView.text = nil
             self.customInputView.placeholderLabel.isHidden = false
         }
+    }
+    
+    private func saveToFromReceentMessages() {
+        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
 
+        let data = [
+            "text": customInputView.textView.text ?? "",
+            "name": match.name,
+            "profileImageUrl": match.profileImageUrl,
+            "timestamp": Timestamp(date: Date()),
+            "uid": match.uid
+        ] as [String: Any]
+        
+        Firestore.firestore().collection("matches_messages").document(currentUserId).collection("recent_messages").document(match.uid).setData(data) { (err) in
+            if let err = err {
+                print("Failed to save recent_messages: ", err)
+                return
+            }
+        }
+        
+        guard let currentUser = self.currentUser else { return }
+        
+        let toData = [
+            "text": customInputView.textView.text ?? "",
+            "name": currentUser.name ?? "",
+            "profileImageUrl": currentUser.imageUrl1 ?? "",
+            "timestamp": Timestamp(date: Date()),
+            "uid": currentUserId
+            ] as [String: Any]
+        
+        Firestore.firestore().collection("matches_messages").document(match.uid).collection("recent_messages").document(currentUserId).setData(toData) { (err) in
+            if let err = err {
+                print("Failed to save recent_messages: ", err)
+                return
+            }
+        }
     }
     
     // input AccessoryView
