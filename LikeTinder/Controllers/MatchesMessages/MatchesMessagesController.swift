@@ -9,7 +9,8 @@
 import LBTATools
 import Firebase
 
-class RecentMessageCell: LBTAListCell<UIColor> {
+
+class RecentMessageCell: LBTAListCell<RecentMessage> {
     
     let userProfileImageView = UIImageView(image: #imageLiteral(resourceName: "kelly1"), contentMode: .scaleAspectFill)
     let usernameLabel = UILabel(text: "USERNAME HERE", font: .boldSystemFont(ofSize: 18))
@@ -17,9 +18,11 @@ class RecentMessageCell: LBTAListCell<UIColor> {
                                    font: .systemFont(ofSize: 16),
                                    numberOfLines: 2)
     
-    override var item: UIColor! {
+    override var item: RecentMessage! {
         didSet {
-//            backgroundColor = item
+            usernameLabel.text = item.name
+            messageTextLabel.text = item.text
+            userProfileImageView.sd_setImage(with: URL(string: item.profileImageUrl))
         }
     }
     
@@ -39,8 +42,21 @@ class RecentMessageCell: LBTAListCell<UIColor> {
     
 }
 
+struct RecentMessage {
+    let text, uid, name, profileImageUrl: String
+    let timestamp: Timestamp
+    
+    init(dictionary: [String: Any]) {
+        self.text = dictionary["text"] as? String ?? ""
+        self.uid = dictionary["uid"] as? String ?? ""
+        self.name = dictionary["name"] as? String ?? ""
+        self.profileImageUrl = dictionary["profileImageUrl"] as? String ?? ""
 
-class MatchesMessagesController: LBTAListHeaderController<RecentMessageCell, UIColor, MatchesHeader>, UICollectionViewDelegateFlowLayout {
+        self.timestamp = dictionary["timestamp"] as? Timestamp ?? Timestamp(date: Date())
+    }
+}
+
+class MatchesMessagesController: LBTAListHeaderController<RecentMessageCell, RecentMessage, MatchesHeader>, UICollectionViewDelegateFlowLayout {
     
     override func setupHeader(_ header: MatchesHeader) {
         header.matchesHorizontalController.rootMatchesController = self
@@ -56,8 +72,14 @@ class MatchesMessagesController: LBTAListHeaderController<RecentMessageCell, UIC
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        items = [.red, .blue]
+        fetchRecentMessages()
         
+//        items = [
+//            .init(text: "Some random text", uid: "BLANK", name: "Big Burger",
+//                  profileImageUrl: "https://firebasestorage.googleapis.com/v0/b/liketinder-1ffcf.appspot.com/o/images%2F9C7F086D-9618-4E78-BC8E-C93AA8E5DA7B?alt=media&token=3cb07e19-9be2-4cb7-a8ef-4859f0550d68",
+//                  timestamp: Timestamp(date: .init()))
+//        ]
+//
         collectionView.backgroundColor = .white
         
         customNavBar.backButton.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
@@ -74,6 +96,33 @@ class MatchesMessagesController: LBTAListHeaderController<RecentMessageCell, UIC
         view.addSubview(statusBarCover)
         statusBarCover.anchor(top: view.topAnchor, leading: view.leadingAnchor,
                               bottom: view.safeAreaLayoutGuide.topAnchor, trailing: view.trailingAnchor)
+    }
+    
+    var recentMessagesDictionary = [String: RecentMessage]()
+    
+    private func fetchRecentMessages() {
+        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        
+        Firestore.firestore().collection("matches_messages").document(currentUserId).collection("recent_messages").addSnapshotListener { (querySnapshot, err) in
+            querySnapshot?.documentChanges.forEach({ (change) in
+                
+                if change.type == .added || change.type == .modified {
+                    let dictionary = change.document.data()
+                    let recentMessage = RecentMessage(dictionary: dictionary)
+                    self.recentMessagesDictionary[recentMessage.uid] = recentMessage
+                }
+            })
+            self.resetItems()
+        }
+    }
+    
+    private func resetItems() {
+        let values = Array(recentMessagesDictionary.values)
+        items = values.sorted(by: { (rm1, rm2) -> Bool in
+            return rm1.timestamp.compare(rm2.timestamp) == .orderedDescending
+        })
+        collectionView.reloadData()
+        
     }
     
     @objc private func handleBack() {
